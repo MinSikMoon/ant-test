@@ -1,0 +1,7 @@
+/target
+target
+report
+/report
+/src/main/webapp/js
+/src/main/webapp/images
+*db.xml

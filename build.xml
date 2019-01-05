@@ -1,0 +1,67 @@
+<project name="HelloWorld" basedir="." default="main">
+
+    <property name="src.dir" value="src/main/java"/>
+    <property name="webapp.dir" value="src/main/webapp"/>
+    <property name="web-inf.dir" value="${webapp.dir}/WEB-INF"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="target.dir" value="target"/>
+    <property name="classes.dir" value="${target.dir}/classes"/>
+    <property name="TITLE-PROJECT" value="antmvn"/>
+    <property name="tomcat-webapps" value="D:/javaide_new/servers/apache-tomcat-7.0.70/webapps"/>
+    <property name="jenkins-workspace" value="C:/Users/MinSik Moon/.jenkins/workspace"/>
+    <property name="report.dir" location="report" />
+    <property name="resources.dir" location="src/main/webapp/WEB-INF/resources" />
+    
+
+    <!-- 1. classpath를 지정한다. 라이브러리  폴더 위치 -->
+    <path id="libpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+    <!-- 2. 무슨폴더를 클린할 것인가? -->
+    <target name="clean">
+        <delete dir="${target.dir}"/>
+        <delete dir="${report.dir}"/>
+    </target>
+
+    <!-- Create folders -->
+	<target name="init" depends="clean">
+		<mkdir dir="${report.dir}" />
+	</target>
+    <!-- 3. 컴파일 : 소스폴더 위치, 클래스들이 만들어질 타겟과, classpathref로 라이브러리 참조폴더 정의해준다. -->
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="libpath" encoding="utf-8" includeantruntime="true"/>
+    </target>
+
+   
+
+    <!-- 4. war가 어디에 만들어질 것인가? 메인클래스위치도 지정해준다. -->
+    <target name="war" depends="init, clean,compile">
+        <war destfile="${target.dir}/${TITLE-PROJECT}.war">
+            <lib dir="${lib.dir}"/>
+            <classes dir="${classes.dir}"/>
+            <zipfileset dir="${webapp.dir}/WEB-INF" prefix="WEB-INF/"/>
+        </war>
+    </target>
+
+      <!-- 테스팅 : batchtest는 하위 폴더의 패턴에 맞는것 모두 테스트 시켜주는것. -->
+    <target name="test" depends="war">
+        <junit printsummary="yes" haltonfailure="no">
+            <classpath>
+                <path refid="libpath"/>
+                <pathelement location="${classes.dir}"/>
+                <pathelement location="${resources.dir}"/>
+            </classpath>
+            <formatter type="plain" />
+            <batchtest fork="yes" todir="${report.dir}">
+                <fileset dir="${src.dir}" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+    <!-- 5. war 복사해보기 -->
+    <target name="copy" depends="war">
+		<echo message="Copy ready" />
+        <copy file="${target.dir}/${TITLE-PROJECT}.war" todir="${tomcat-webapps}"/>
+	</target>
+
+</project>
