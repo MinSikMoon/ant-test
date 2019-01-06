@@ -23,7 +23,7 @@ public class CalcTest {
     Calculator calculator;
     @Test
     public void sumTest(){
-        assertEquals(calculator.sum(1, 2), 3);
+        assertEquals(calculator.sum(2, 4), 6);
     }
     @Test
     public void sumTest6(){
