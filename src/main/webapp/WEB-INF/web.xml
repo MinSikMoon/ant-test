@@ -12,7 +12,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				classpath:mvc-quick-start.xml
+				/WEB-INF/resources/mvc-quick-start.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
