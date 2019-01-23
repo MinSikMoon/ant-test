@@ -28,7 +28,7 @@
 		<mkdir dir="${report.dir}" />
 	</target>
     <!-- 3. 컴파일 : 소스폴더 위치, 클래스들이 만들어질 타겟과, classpathref로 라이브러리 참조폴더 정의해준다. -->
-    <target name="compile">
+    <target name="compile" depends="init">
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="libpath" encoding="utf-8" includeantruntime="true"/>
     </target>
@@ -45,7 +45,7 @@
     </target>
 
       <!-- 테스팅 : batchtest는 하위 폴더의 패턴에 맞는것 모두 테스트 시켜주는것. -->
-    <target name="test" depends="war">
+    <target name="test" depends="compile">
         <junit printsummary="yes" haltonfailure="no">
             <classpath>
                 <path refid="libpath"/>
