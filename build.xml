@@ -7,8 +7,6 @@
     <property name="target.dir" value="target"/>
     <property name="classes.dir" value="${target.dir}/classes"/>
     <property name="TITLE-PROJECT" value="antmvn"/>
-    <property name="tomcat-webapps" value="D:/javaide_new/servers/apache-tomcat-7.0.70/webapps"/>
-    <property name="jenkins-workspace" value="C:/Users/MinSik Moon/.jenkins/workspace"/>
     <property name="report.dir" location="report" />
     <property name="resources.dir" location="src/main/webapp/WEB-INF/resources" />
     
