@@ -1,6 +1,7 @@
 <project name="ant-test" basedir="." default="main">
 
     <property name="src.dir" value="src/main/java"/>
+    <property name="src.test.dir" value="src/test/java"/>
     <property name="webapp.dir" value="src/main/webapp"/>
     <property name="web-inf.dir" value="${webapp.dir}/WEB-INF"/>
     <property name="lib.dir" value="lib"/>
@@ -34,7 +35,7 @@
 
     <target name="compile-test" depends="compile">
         <mkdir dir="${classes.test.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.test.dir}" classpathref="libpath" encoding="utf-8" includeantruntime="true"/>
+        <javac srcdir="${src.test.dir}" destdir="${classes.test.dir}" classpathref="libpath" encoding="utf-8" includeantruntime="true"/>
     </target>
 
 
@@ -50,16 +51,16 @@
     </target>
 
     <!-- 테스팅 : batchtest는 하위 폴더의 패턴에 맞는것 모두 테스트 시켜주는것. -->
-    <target name="test" depends="compile">
+    <target name="test" depends="compile-test">
         <junit printsummary="yes" haltonfailure="no">
             <classpath>
                 <path refid="libpath"/>
-                <pathelement location="${classes.dir}"/>
+                <pathelement location="${classes.test.dir}"/>
                 <pathelement location="${resources.dir}"/>
             </classpath>
             <formatter type="plain" />
             <batchtest fork="yes" todir="${report.dir}">
-                <fileset dir="${src.dir}" includes="**/*Test.java"/>
+                <fileset dir="${src.test.dir}" includes="**/*Test.java"/>
             </batchtest>
         </junit>
     </target>
